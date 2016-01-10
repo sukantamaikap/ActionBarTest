@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ShareActionProvider;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private ShareActionProvider _shareActionProvider;
 
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        share(menu);
+        //share(menu);
         return super.onCreateOptionsMenu(menu);
     }
 
