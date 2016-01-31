@@ -23,4 +23,11 @@
         <item>Cambridge</item>
         <item>Sebastopol</item>
     </string-array>
+
+    <string-array name="titles">
+        <item>Home</item>
+        <item>Pizzas</item>
+        <item>Pasta</item>
+        <item>Store</item>
+    </string-array>
 </resources>
