@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] _titles;
     private ListView _drawerList;
     private DrawerLayout _drawerLayout;
+    private ActionBarDrawerToggle _drawerToggle;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -33,6 +35,36 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             selectItem(0);
         }
+
+        this._drawerToggle = new ActionBarDrawerToggle(this, this._drawerLayout, R.string.open_drawer, R.string.close_drawer) {
+            @Override
+            public void onDrawerClosed(View view) {
+                super.onDrawerOpened(view);
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerOpened(View view) {
+                super.onDrawerOpened(view);
+                invalidateOptionsMenu();
+            }
+        };
+        this._drawerLayout.setDrawerListener(this._drawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    protected void onPostCreate(Bundle savedInstance) {
+        super.onPostCreate(savedInstance);
+        this._drawerToggle.syncState();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        final boolean drawerOpen = this._drawerLayout.isDrawerOpen(this._drawerList);
+        menu.findItem(R.id.action_share).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private void share (Menu menu) {
@@ -57,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (this._drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch (item.getItemId()) {
             case R.id.action_create_order:
                 Intent orderIntent = new Intent(this, OrderActivity.class);
